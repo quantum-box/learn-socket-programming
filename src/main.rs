@@ -35,9 +35,11 @@ fn main() {
         "udp" => match role {
             "server" => {
                 // TODO: UDPサーバーを実装
+                udp_server::serve(address).unwrap_or_else(|e| error!("{}", e));
             }
             "client" => {
                 // TODO: UDPクライアントを実装
+                udp_client::communicate(address).unwrap_or_else(|e| error!("{}", e));
             }
             _ => {
                 missing_role();
