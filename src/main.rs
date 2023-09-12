@@ -19,7 +19,7 @@ fn main() {
     let role: &str = &args[2];
     let address = &args[3];
     match protocol {
-        "tpc" => match role {
+        "tcp" => match role {
             "server" => {
                 // TODO: TCPサーバーを実装
                 tcp_server::serve(address).unwrap_or_else(|e| error!("{}", e));

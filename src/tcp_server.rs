@@ -1,4 +1,6 @@
-//! 処理の流れ
+//! # tcp server
+//!
+//! ## 処理の流れ
 //!
 //! TcoListener::bind()でソケットを生成し、
 //! accept()でクライアントからの接続を待ち受ける。
@@ -9,6 +11,8 @@
 //! write()でクライアントにデータを送信する。
 //!
 //! このサーバは、クライアントからの入力をそのまま返却する。
+//!
+//! ## ソケットの役割
 //!
 //! [1]で生成されるlistenerの役割は、
 //! クライアントからのコネクション確立要求を待ち受けること。
@@ -25,6 +29,33 @@
 //! listenerのようなソケットをリスニングソケット
 //! streamのようなソケットを接続済みソケットと呼ぶこととする
 //! (サーバーソケット、クライアントソケットという呼び方もあるらしい)
+//!
+//! ## handler()の役割
+//! `stream.read()` は、steamにデータが到着するまでブロックする。
+//! `read()` は `EOF` が到着すると（今回は通信が切断されると）、0を返却する。
+//! `stream` がdropされると、コネクションが切断される。
+//!
+//! run server with:
+//!
+//! ```shell
+//! ❯ cargo run tcp server 127.0.0.1:33333
+//! ❯ cargo run tcp server 127.0.0.1:33333
+//!    Compiling socket-programming v0.1.0 (/Users/takanorifukuyama/git/github.com/takanorifukuyama/socket-programming)
+//!     Finished dev [unoptimized + debuginfo] target(s) in 1.09s
+//!      Running `target/debug/socket-programming tcp server '127.0.0.1:33333'`
+//! [2023-09-12T06:43:34Z DEBUG socket_programming::tcp_server] Handling data from 127.0.0.1:52937
+//! aaaaaaaaaaaaaa
+//! ```
+//!
+//! connect to server with:
+//! ```shell
+//! ❯ telnet 127.0.0.1 33333
+//! Trying 127.0.0.1...
+//! Connected to localhost.
+//! Escape character is '^]'.
+//! aaaaaaaaaaaaaa
+//! aaaaaaaaaaaaaa
+//! ```
 
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
