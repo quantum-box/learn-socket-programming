@@ -1,3 +1,14 @@
+//! # TCPクライアント
+//!
+//! 指定のアドレスに対してconnect()をする
+//! この時点で、3 way handshakeが行われ、
+//! コネクション確立する
+//!
+//! ## 送受信データのエンコード
+//!
+//! ネットワークではバイトストリームで送受信する
+//! よって、入力された文字列はutf-8にエンコードしてバイト列に変換する
+
 use std::io::{self, BufRead, BufReader, Write};
 use std::net::TcpStream;
 use std::str;
